@@ -26,6 +26,11 @@ void AnnotatedImage::render(QPainter *painter) const
     }
     painter->drawImage(0, 0, *m_image);
 
+    // Draw annotations
+    for (const auto &ann : m_annotations)
+    {
+        ann->render(painter);
+    }
 }
 
 IAnnotatedImageSPtr AnnotatedImage::fromFile(const QString &imageFile)

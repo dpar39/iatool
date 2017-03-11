@@ -2,14 +2,26 @@
 #include <QPainter>
 #include <QResizeEvent>
 
+#include <QLabel>
+
 #include <algorithm>
 
-AnnotatedImageViewerWidget::AnnotatedImageViewerWidget(QWidget *parent) : QWidget(parent)
+AnnotatedImageViewerWidget::AnnotatedImageViewerWidget(QWidget *parent)
+    : QWidget(parent),
+      m_label(new QLabel(this))
 {
     m_zoom = 1.0f;
     m_imageWidth = width();
     m_imageHeight = height();
     setMouseTracking(true);
+    QString labelStyle = "font-size:10px;"
+                         "font-family:Consolas;"
+                         "color:yellowgreen;"
+                         "border-width:0px;"
+                         "border-radius:2px;"
+                         "background-color:#77000000";
+    m_label->setStyleSheet(labelStyle);
+    m_label->setVisible(false);
 }
 
 void AnnotatedImageViewerWidget::setAnnotatedImage(IAnnotatedImageSPtr image)
@@ -34,10 +46,11 @@ void AnnotatedImageViewerWidget::paintEvent(QPaintEvent *)
     }
 }
 
-void AnnotatedImageViewerWidget::setTransform()
+void AnnotatedImageViewerWidget::calculateTransforms()
 {
     m_imgToClientTForm.setMatrix(m_ratio*m_zoom, 0, 0, 0, m_ratio*m_zoom, 0, m_xleft, m_ytop, 1);
     m_clientToImgTForm = m_imgToClientTForm.inverted();
+    m_label->setGeometry(std::max(1.f, m_xleft), std::max(0.0f, m_ytop), 72, 18);
 }
 
 void AnnotatedImageViewerWidget::resizeEvent(QResizeEvent *e)
@@ -64,7 +77,7 @@ void AnnotatedImageViewerWidget::mousePressEvent(QMouseEvent *e)
 {
     // Store the position where the mouse was pressed
     m_mouseDownPos = e->pos();
-    QWidget::mousePressEvent(e);    
+    QWidget::mousePressEvent(e);
 }
 
 void AnnotatedImageViewerWidget::mouseMoveEvent(QMouseEvent *e)
@@ -73,14 +86,29 @@ void AnnotatedImageViewerWidget::mouseMoveEvent(QMouseEvent *e)
 
     m_coords = m_clientToImgTForm.map(e->pos());
 
+    QString labelText;
+
+    labelText.sprintf("[%5d, %5d]", (int)m_coords.x(), (int)m_coords.y());
+    m_label->setText(labelText);
+
     if ((e->buttons() && Qt::LeftButton))
     {
         m_xleft -=  (int) ((m_mouseDownPos.x() - e->x()));
         m_ytop  -=  (int) ((m_mouseDownPos.y() - e->y()));
         m_mouseDownPos = e->pos();
-        setTransform();
+        calculateTransforms();
         repaint();
     }
+}
+
+void AnnotatedImageViewerWidget::enterEvent(QEvent *e)
+{
+    m_label->setVisible(true);
+}
+
+void AnnotatedImageViewerWidget::leaveEvent(QEvent *e)
+{
+    m_label->setVisible(false);
 }
 
 void AnnotatedImageViewerWidget::calculateZoomFit()
@@ -95,7 +123,7 @@ void AnnotatedImageViewerWidget::calculateZoomFit()
 
         m_xleft = (width() - m_ratio * m_imageWidth) / 2.0f;
         m_ytop = (height() - m_ratio * m_imageHeight) / 2.0f;
-        setTransform();
+        calculateTransforms();
     }
 }
 
@@ -109,6 +137,6 @@ void AnnotatedImageViewerWidget::setZoom(float value)
     m_xleft += (int) (m_coords.x() * m_ratio * (m_zoom - value));
     m_zoom = value;
 
-    setTransform();
+    calculateTransforms();
     repaint();
 }

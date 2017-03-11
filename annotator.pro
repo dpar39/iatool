@@ -26,13 +26,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     annotatedimage.cpp \
-    annotatedimageviewerwidget.cpp
+    annotatedimageviewerwidget.cpp \
+    editcoordinator.cpp \
+    singlepointannotation.cpp \
+    annotationbase.cpp
 
 HEADERS  += mainwindow.h \
     iannotation.h \
     annotatedimage.h \
     iannotatedimage.h \
     common.h \
-    annotatedimageviewerwidget.h
+    annotatedimageviewerwidget.h \
+    editcoordinator.h \
+    singlepointannotation.h \
+    annotationbase.h
 
 FORMS    += mainwindow.ui

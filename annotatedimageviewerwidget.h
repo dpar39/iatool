@@ -6,6 +6,7 @@
 #include <QTransform>
 
 class QMouseEvent;
+class QLabel;
 
 
 #include "iannotatedimage.h"
@@ -36,6 +37,10 @@ public:
 
     void mouseMoveEvent(QMouseEvent *e) override;
 
+    void enterEvent(QEvent *e) override;
+
+    void leaveEvent(QEvent *e) override;
+
 signals:
     void imageMove(const QPointF &pt);
 
@@ -58,11 +63,13 @@ private:
 
     QPointF m_coords; // Latest mouse coordinates
 
-    QPointF m_mouseDownPos; // Las po
+    QPointF m_mouseDownPos;
+
+    QLabel *m_label;
 
 private:
     void calculateZoomFit();
-    void setTransform();
+    void calculateTransforms();
 };
 
 #endif // IMAGEVIEWER_H
