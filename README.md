@@ -1,4 +1,4 @@
-# Image Annotation tool
+# Image Annotation Tool
 
 This software will allow researchers to annotate images manually so that the annotations can be used either for training or validation of computer vision algorithms.
 
