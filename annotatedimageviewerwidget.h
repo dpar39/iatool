@@ -25,6 +25,7 @@ public:
 
     void setZoom(float value);
 
+private:
     void paintEvent(QPaintEvent *e) override;
 
     void resizeEvent(QResizeEvent *e) override;
@@ -45,6 +46,8 @@ signals:
     void imageMove(const QPointF &pt);
 
     void imageClick(const QPointF &pt);
+
+
 
 public slots:
 

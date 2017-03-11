@@ -1,5 +1,8 @@
 #include "singlepointannotation.h"
+#include "utils.h"
+
 #include <QPainter>
+#include <QJsonObject>
 
 SinglePointAnnotation::SinglePointAnnotation(const QPointF &pt)
     : m_point(pt)
@@ -21,4 +24,10 @@ void SinglePointAnnotation::render(QPainter *painter)
     painter->drawLine(lftPt, rgtPt);
     painter->drawLine(topPt, botPt);
     painter->setTransform(tf);
+}
+
+void SinglePointAnnotation::serialize(QJsonObject &obj)
+{
+    obj["type"] = "Point";
+    obj["data"] = Utils::toJson(m_point);
 }

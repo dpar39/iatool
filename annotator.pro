@@ -27,9 +27,10 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     annotatedimage.cpp \
     annotatedimageviewerwidget.cpp \
-    editcoordinator.cpp \
     singlepointannotation.cpp \
-    annotationbase.cpp
+    annotationbase.cpp \
+    editcoordinator.cpp \
+    utils.cpp
 
 HEADERS  += mainwindow.h \
     iannotation.h \
@@ -37,8 +38,9 @@ HEADERS  += mainwindow.h \
     iannotatedimage.h \
     common.h \
     annotatedimageviewerwidget.h \
-    editcoordinator.h \
     singlepointannotation.h \
-    annotationbase.h
+    annotationbase.h \
+    editcoordinator.h \
+    utils.h
 
 FORMS    += mainwindow.ui

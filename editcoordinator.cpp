@@ -1,6 +1,6 @@
 #include "editcoordinator.h"
 
-EditCoordinator::EditCoordinator()
+EditCoordinator::EditCoordinator(QObject *parent) : QObject(parent)
 {
 
 }

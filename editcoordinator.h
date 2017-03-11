@@ -1,11 +1,20 @@
 #ifndef EDITCOORDINATOR_H
 #define EDITCOORDINATOR_H
 
+#include <QObject>
 
-class EditCoordinator
+class EditCoordinator : public QObject
 {
+    Q_OBJECT
 public:
-    EditCoordinator();
+    explicit EditCoordinator(QObject *parent = 0);
+
+signals:
+
+public slots:
+    void keyDown(){
+
+    }
 };
 
 #endif // EDITCOORDINATOR_H
