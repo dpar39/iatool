@@ -1,5 +1,4 @@
 #include "annotatedimage.h"
-#include "icoordinateconverter.h"
 
 #include <QFile>
 #include <QPainter>
@@ -19,17 +18,13 @@ void AnnotatedImage::addAnnotation(IAnnotationSPtr annotation)
     m_annotations.push_back(annotation);
 }
 
-void AnnotatedImage::render(QPainter *painter, ICoordinateConverter *canvas) const
+void AnnotatedImage::render(QPainter *painter) const
 {
     if (m_image->isNull())
     {
         return;
     }
-    auto imgTopLeft = canvas->imageToClient(QPointF(0, 0));
-    auto imgBottonRight = canvas->imageToClient(QPointF(m_image->width(), m_image->height()));
-    QRectF r(imgTopLeft, imgBottonRight);
-
-    painter->drawImage(r,*m_image);
+    painter->drawImage(0, 0, *m_image);
 
 }
 

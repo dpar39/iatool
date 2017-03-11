@@ -15,83 +15,72 @@ AnnotatedImageViewerWidget::AnnotatedImageViewerWidget(QWidget *parent) : QWidge
 void AnnotatedImageViewerWidget::setAnnotatedImage(IAnnotatedImageSPtr image)
 {
     m_annotatedImage = image;
-    m_imageWidth =  m_annotatedImage->getImage()->width();
-    m_imageHeight =  m_annotatedImage->getImage()->height();
-
-    calculateZoomFit();
-    // Calculate viewport
+    if (m_annotatedImage != nullptr)
+    {
+        m_imageWidth =  m_annotatedImage->getImage()->width();
+        m_imageHeight =  m_annotatedImage->getImage()->height();
+        calculateZoomFit();
+    }
     repaint();
 }
-
 
 void AnnotatedImageViewerWidget::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
     if (m_annotatedImage != nullptr)
     {
-        m_annotatedImage->render(&p, this);
+        p.setTransform(m_imgToClientTForm);
+        m_annotatedImage->render(&p);
     }
+}
+
+void AnnotatedImageViewerWidget::setTransform()
+{
+    m_imgToClientTForm.setMatrix(m_ratio*m_zoom, 0, 0, 0, m_ratio*m_zoom, 0, m_xleft, m_ytop, 1);
+    m_clientToImgTForm = m_imgToClientTForm.inverted();
 }
 
 void AnnotatedImageViewerWidget::resizeEvent(QResizeEvent *e)
 {
+    calculateZoomFit();
     QWidget::resizeEvent(e);
-    if (m_annotatedImage != nullptr)
-    {
-//        auto rx = e->size().width() / e->oldSize().width();
-//        auto ry = e->size().height() / e->oldSize().width();
-//        auto new_zoom = m_zoom * std::min(rx, ry);
-//        setZoom(new_zoom);
-    }
 }
 
 void AnnotatedImageViewerWidget::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    QWidget::mouseDoubleClickEvent(e);
     calculateZoomFit();
     repaint();
+    QWidget::mouseDoubleClickEvent(e);
 }
 
 void AnnotatedImageViewerWidget::wheelEvent(QWheelEvent *e)
 {
-    QWidget::wheelEvent(e);
     auto inc = (e->delta() > 0) ? 1.2 : 1/1.2;
     setZoom(m_zoom * inc);
+    QWidget::wheelEvent(e);
 }
 
 void AnnotatedImageViewerWidget::mousePressEvent(QMouseEvent *e)
 {
-    QWidget::mousePressEvent(e);
+    // Store the position where the mouse was pressed
     m_mouseDownPos = e->pos();
+    QWidget::mousePressEvent(e);    
 }
 
 void AnnotatedImageViewerWidget::mouseMoveEvent(QMouseEvent *e)
 {
     QWidget::mouseMoveEvent(e);
 
-    m_coords = clientToImage(e->pos());
+    m_coords = m_clientToImgTForm.map(e->pos());
 
     if ((e->buttons() && Qt::LeftButton))
     {
         m_xleft -=  (int) ((m_mouseDownPos.x() - e->x()));
         m_ytop  -=  (int) ((m_mouseDownPos.y() - e->y()));
         m_mouseDownPos = e->pos();
+        setTransform();
         repaint();
     }
-}
-
-QPointF AnnotatedImageViewerWidget::imageToClient(const QPointF &pt)
-{
-    auto x = m_xleft + pt.x() * m_ratio * m_zoom;
-    auto y = m_ytop + pt.y() * m_ratio* m_zoom;
-    return QPointF(x, y);
-}
-
-QPointF AnnotatedImageViewerWidget::clientToImage(const QPointF &pt)
-{
-    auto x = (pt.x() - m_xleft) / m_ratio /m_zoom;
-    auto y = (pt.y() - m_ytop) / m_ratio/ m_zoom;
-    return QPointF(x, y);
 }
 
 void AnnotatedImageViewerWidget::calculateZoomFit()
@@ -106,6 +95,7 @@ void AnnotatedImageViewerWidget::calculateZoomFit()
 
         m_xleft = (width() - m_ratio * m_imageWidth) / 2.0f;
         m_ytop = (height() - m_ratio * m_imageHeight) / 2.0f;
+        setTransform();
     }
 }
 
@@ -119,5 +109,6 @@ void AnnotatedImageViewerWidget::setZoom(float value)
     m_xleft += (int) (m_coords.x() * m_ratio * (m_zoom - value));
     m_zoom = value;
 
+    setTransform();
     repaint();
 }

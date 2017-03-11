@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPointF>
+#include <QTransform>
 
 class QMouseEvent;
 
@@ -10,10 +11,8 @@ class QMouseEvent;
 #include "iannotatedimage.h"
 #include "iannotation.h"
 
-#include "icoordinateconverter.h"
 
-
-class AnnotatedImageViewerWidget : public QWidget, public ICoordinateConverter
+class AnnotatedImageViewerWidget : public QWidget
 {
     Q_OBJECT
 public:
@@ -37,13 +36,10 @@ public:
 
     void mouseMoveEvent(QMouseEvent *e) override;
 
-public: /* Coordinate conversion */
-    QPointF imageToClient(const QPointF &pt) override;
-
-    QPointF clientToImage(const QPointF &pt) override;
-
-
 signals:
+    void imageMove(const QPointF &pt);
+
+    void imageClick(const QPointF &pt);
 
 public slots:
 
@@ -51,19 +47,22 @@ private:
 
     IAnnotatedImageSPtr m_annotatedImage;
 
-    float m_xleft, m_ytop; // Offset in screen pixels
-    float m_ratio;
-    float m_zoom;
+    // Cached transformations from image to widget coordinates and inverse
+    QTransform m_imgToClientTForm;
+    QTransform m_clientToImgTForm;
 
+    float m_xleft, m_ytop; // Offset in screen pixels
+    float m_ratio; // Scale of widget size to image size
+    float m_zoom;  // Zoom scale normalized to 1
     int m_imageWidth, m_imageHeight;
 
     QPointF m_coords; // Latest mouse coordinates
 
-    QPointF m_mouseDownPos;
+    QPointF m_mouseDownPos; // Las po
 
 private:
     void calculateZoomFit();
-
+    void setTransform();
 };
 
 #endif // IMAGEVIEWER_H

@@ -31,7 +31,7 @@ public:
 
     void addAnnotation(IAnnotationSPtr annotation) override;
 
-    void render(QPainter *painter, ICoordinateConverter *canvas) const override;
+    void render(QPainter *painter) const override;
 public:
     /* Factory method */
     static IAnnotatedImageSPtr fromFile(const QString &imageFile);

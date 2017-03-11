@@ -30,7 +30,6 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     iannotation.h \
-    icoordinateconverter.h \
     annotatedimage.h \
     iannotatedimage.h \
     common.h \
