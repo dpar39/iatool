@@ -26,6 +26,9 @@ MainView::MainView(QWidget *parent) :
 
     m_annotatedImagesModel = new ImageCollectionModel(this, m_annotatedImages);
     ui->annotatedImagesView->setModel(m_annotatedImagesModel);
+
+    connect(m_annotatedImagesModel, SIGNAL(selectedImageChanged(IAnnotatedImageSPtr)),
+            this, SLOT(onSelectedImageChanged(IAnnotatedImageSPtr)));
 }
 
 MainView::~MainView()
@@ -50,7 +53,10 @@ void MainView::on_actionOpen_Folder_triggered()
     {
         return;
     }
-
     m_annotatedImagesModel->loadDirectoryWithImages(folder);
+}
 
+void MainView::onSelectedImageChanged(IAnnotatedImageSPtr image)
+{
+    ui->imageViewer->setAnnotatedImage(image);
 }

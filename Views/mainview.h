@@ -32,6 +32,8 @@ private slots:
     void on_actionOpen_Image_triggered();
     void on_actionOpen_Folder_triggered();
 
+    void onSelectedImageChanged(IAnnotatedImageSPtr image);
+
 private:
     IAnnotatedImageSPtrVecSPtr m_annotatedImages;
 

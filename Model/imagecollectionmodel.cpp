@@ -38,10 +38,17 @@ void ImageCollectionModel::loadDirectoryWithImages(const QString &imageFolder)
 //    if (!m_annotatedImages->empty())
 //    {
 //        ui->imageViewer->setAnnotatedImage(m_annotatedImages->front());
-//    }
+    //    }
 }
 
-
+void ImageCollectionModel::onSelectedImage(QItemSelection selected, QItemSelection deselected)
+{
+    if (!selected.empty())
+    {
+        int imgIndex = selected.first().indexes().first().row();
+        emit selectedImageChanged(m_images->at(imgIndex));
+    }
+}
 
 int ImageCollectionModel::rowCount(const QModelIndex &) const
 {
@@ -53,7 +60,7 @@ QVariant ImageCollectionModel::data(const QModelIndex &index, int role) const
     switch(role)
     {
         case Qt::DisplayRole:
-            return QVariant((*m_images)[index.row()]->imageFileName());
+            return QVariant(m_images->at(index.row())->imageFileName());
     }
 
     return QVariant();

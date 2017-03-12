@@ -20,6 +20,7 @@ public:
 
     void setModel(ImageCollectionModel *model);
 
+
 private:
     Ui::AnnotatedImageView *ui;
 
