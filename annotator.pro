@@ -23,24 +23,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    annotatedimage.cpp \
-    annotatedimageviewerwidget.cpp \
-    singlepointannotation.cpp \
-    annotationbase.cpp \
-    editcoordinator.cpp \
-    utils.cpp
+SOURCES += \
+    main.cpp\
+    Common/utils.cpp \
+    Model/annotatedimage.cpp \
+    Model/singlepointannotation.cpp \
+    Model/annotationbase.cpp \
+    Views/mainwindow.cpp \
+    Views/annotatedimageviewerwidget.cpp \
+    editcoordinator.cpp
 
-HEADERS  += mainwindow.h \
-    iannotation.h \
-    annotatedimage.h \
-    iannotatedimage.h \
-    common.h \
-    annotatedimageviewerwidget.h \
-    singlepointannotation.h \
-    annotationbase.h \
-    editcoordinator.h \
-    utils.h
 
-FORMS    += mainwindow.ui
+HEADERS  += \
+    Common/utils.h \
+    Common/common.h \
+    Model/iannotation.h \
+    Model/iannotatedimage.h \
+    Model/annotatedimage.h \
+    Model/annotationbase.h \
+    Model/singlepointannotation.h \
+    Views/annotatedimageviewerwidget.h \
+    Views/mainwindow.h \
+    editcoordinator.h
+
+
+FORMS += Views/mainwindow.ui
