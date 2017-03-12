@@ -29,8 +29,10 @@ SOURCES += \
     Model/annotatedimage.cpp \
     Model/singlepointannotation.cpp \
     Model/annotationbase.cpp \
-    Views/mainwindow.cpp \
-    Views/annotatedimageviewerwidget.cpp \
+    Model/imagecollectionmodel.cpp \
+    Views/imagecollectionview.cpp \
+    Views/mainview.cpp \
+    Views/annotatedimageview.cpp \    
     editcoordinator.cpp
 
 
@@ -42,9 +44,13 @@ HEADERS  += \
     Model/annotatedimage.h \
     Model/annotationbase.h \
     Model/singlepointannotation.h \
-    Views/annotatedimageviewerwidget.h \
-    Views/mainwindow.h \
+    Model/imagecollectionmodel.h \
+    Views/imagecollectionview.h \
+    Views/annotatedimageview.h \
+    Views/mainview.h \
     editcoordinator.h
 
 
-FORMS += Views/mainwindow.ui
+FORMS += \
+    Views/mainview.ui \
+    Views/annotatedimageview.ui

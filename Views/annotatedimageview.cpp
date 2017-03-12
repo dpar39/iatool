@@ -1,4 +1,4 @@
-#include "annotatedimageviewerwidget.h"
+#include "annotatedimageview.h"
 #include <QPainter>
 #include <QResizeEvent>
 
@@ -6,7 +6,7 @@
 
 #include <algorithm>
 
-AnnotatedImageViewerWidget::AnnotatedImageViewerWidget(QWidget *parent)
+AnnotatedImageView::AnnotatedImageView(QWidget *parent)
     : QWidget(parent),
       m_label(new QLabel(this))
 {
@@ -24,7 +24,7 @@ AnnotatedImageViewerWidget::AnnotatedImageViewerWidget(QWidget *parent)
     m_label->setVisible(false);
 }
 
-void AnnotatedImageViewerWidget::setAnnotatedImage(IAnnotatedImageSPtr image)
+void AnnotatedImageView::setAnnotatedImage(IAnnotatedImageSPtr image)
 {
     m_annotatedImage = image;
     if (m_annotatedImage != nullptr)
@@ -36,7 +36,7 @@ void AnnotatedImageViewerWidget::setAnnotatedImage(IAnnotatedImageSPtr image)
     repaint();
 }
 
-void AnnotatedImageViewerWidget::paintEvent(QPaintEvent *)
+void AnnotatedImageView::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
     if (m_annotatedImage != nullptr)
@@ -46,41 +46,41 @@ void AnnotatedImageViewerWidget::paintEvent(QPaintEvent *)
     }
 }
 
-void AnnotatedImageViewerWidget::calculateTransforms()
+void AnnotatedImageView::calculateTransforms()
 {
     m_imgToClientTForm.setMatrix(m_ratio*m_zoom, 0, 0, 0, m_ratio*m_zoom, 0, m_xleft, m_ytop, 1);
     m_clientToImgTForm = m_imgToClientTForm.inverted();
     m_label->setGeometry(std::max(1.f, m_xleft), std::max(0.0f, m_ytop), 72, 18);
 }
 
-void AnnotatedImageViewerWidget::resizeEvent(QResizeEvent *e)
+void AnnotatedImageView::resizeEvent(QResizeEvent *e)
 {
     calculateZoomFit();
     QWidget::resizeEvent(e);
 }
 
-void AnnotatedImageViewerWidget::mouseDoubleClickEvent(QMouseEvent *e)
+void AnnotatedImageView::mouseDoubleClickEvent(QMouseEvent *e)
 {
     calculateZoomFit();
     repaint();
     QWidget::mouseDoubleClickEvent(e);
 }
 
-void AnnotatedImageViewerWidget::wheelEvent(QWheelEvent *e)
+void AnnotatedImageView::wheelEvent(QWheelEvent *e)
 {
     auto inc = (e->delta() > 0) ? 1.2 : 1/1.2;
     setZoom(m_zoom * inc);
     QWidget::wheelEvent(e);
 }
 
-void AnnotatedImageViewerWidget::mousePressEvent(QMouseEvent *e)
+void AnnotatedImageView::mousePressEvent(QMouseEvent *e)
 {
     // Store the position where the mouse was pressed
     m_mouseDownPos = e->pos();
     QWidget::mousePressEvent(e);
 }
 
-void AnnotatedImageViewerWidget::mouseMoveEvent(QMouseEvent *e)
+void AnnotatedImageView::mouseMoveEvent(QMouseEvent *e)
 {
     QWidget::mouseMoveEvent(e);
 
@@ -101,17 +101,17 @@ void AnnotatedImageViewerWidget::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
-void AnnotatedImageViewerWidget::enterEvent(QEvent *e)
+void AnnotatedImageView::enterEvent(QEvent *)
 {
     m_label->setVisible(true);
 }
 
-void AnnotatedImageViewerWidget::leaveEvent(QEvent *e)
+void AnnotatedImageView::leaveEvent(QEvent *)
 {
     m_label->setVisible(false);
 }
 
-void AnnotatedImageViewerWidget::calculateZoomFit()
+void AnnotatedImageView::calculateZoomFit()
 {
     if (m_imageWidth > 0 && m_imageHeight > 0)
     {
@@ -127,7 +127,7 @@ void AnnotatedImageViewerWidget::calculateZoomFit()
     }
 }
 
-void AnnotatedImageViewerWidget::setZoom(float value)
+void AnnotatedImageView::setZoom(float value)
 {
     if (value < 1E-05)
     {

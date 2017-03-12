@@ -1,5 +1,5 @@
-#include "singlepointannotation.h"
-#include "utils.h"
+#include "Model/singlepointannotation.h"
+#include "Common/utils.h"
 
 #include <QPainter>
 #include <QJsonObject>

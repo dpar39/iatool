@@ -9,15 +9,15 @@ class QMouseEvent;
 class QLabel;
 
 
-#include "iannotatedimage.h"
-#include "iannotation.h"
+#include "Model/iannotatedimage.h"
+#include "Model/iannotation.h"
 
 
-class AnnotatedImageViewerWidget : public QWidget
+class AnnotatedImageView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AnnotatedImageViewerWidget(QWidget *parent = 0);
+    explicit AnnotatedImageView(QWidget *parent = 0);
 
     void setAnnotatedImage(IAnnotatedImageSPtr image);
 

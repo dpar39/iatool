@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>MainView</class>
+ <widget class="QMainWindow" name="MainView">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -22,7 +22,7 @@ border-radius: 5px;</string>
     <item>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0" rowspan="2">
-       <widget class="QWidget" name="imageSet" native="true">
+       <widget class="ImageCollectionView" name="annotatedImagesView" native="true">
         <property name="minimumSize">
          <size>
           <width>120</width>
@@ -35,7 +35,7 @@ border-radius: 5px;</string>
        </widget>
       </item>
       <item row="0" column="1" rowspan="2">
-       <widget class="AnnotatedImageViewerWidget" name="imageViewer" native="true">
+       <widget class="AnnotatedImageView" name="imageViewer" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
           <horstretch>1</horstretch>
@@ -106,9 +106,15 @@ border-radius: 5px;</string>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>AnnotatedImageViewerWidget</class>
+   <class>AnnotatedImageView</class>
    <extends>QWidget</extends>
-   <header>annotatedimageviewerwidget.h</header>
+   <header>Views/annotatedimageview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ImageCollectionView</class>
+   <extends>QWidget</extends>
+   <header>Views/imagecollectionview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

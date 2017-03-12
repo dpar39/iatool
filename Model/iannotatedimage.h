@@ -1,14 +1,16 @@
 #ifndef IANNOTATEDIMAGE_H
 #define IANNOTATEDIMAGE_H
 
-#include "common.h"
-#include "iannotation.h"
-
+#include "Common/common.h"
+#include "Model/iannotation.h"
+#include <vector>
+#include <QString>
 
 DEFINE(QImage)
+
 DEFINE(IAnnotatedImage)
 
-typedef std::vector<IAnnotationSPtr> IAnnotationSPtrCollection;
+DEFINE_VECTOR(IAnnotatedImage)
 
 #include "iannotation.h"
 
@@ -17,7 +19,9 @@ class IAnnotatedImage
 public:
     virtual QImageSPtr getImage() const = 0;
 
-    virtual IAnnotationSPtrCollection annotations() const = 0;
+    virtual QString imageFileName() const = 0;
+
+    virtual IAnnotationSPtrVecSPtr annotations() const = 0;
 
     virtual void addAnnotation(IAnnotationSPtr annotation) = 0;
 

@@ -3,31 +3,33 @@
 
 #include <QString>
 #include <QImage>
-#include "common.h"
 
-#include "iannotatedimage.h"
-#include "iannotation.h"
+#include "Common/common.h"
+#include "Model/iannotatedimage.h"
+#include "Model/iannotation.h"
 
 DEFINE(AnnotatedImage)
-
-
 
 class AnnotatedImage : public IAnnotatedImage
 {
 private:
-    AnnotatedImage() {}
+    AnnotatedImage();
 
     // Private members
 private:
+    QString m_imageFileName;
+
     QImageSPtr m_image;
 
-    IAnnotationSPtrCollection m_annotations;
+    IAnnotationSPtrVecSPtr m_annotations;
 
     // IAnnotatedImage interface
 public:
     QImageSPtr getImage() const override;
 
-    IAnnotationSPtrCollection annotations() const override;
+    QString imageFileName() const override;
+
+    IAnnotationSPtrVecSPtr annotations() const override;
 
     void addAnnotation(IAnnotationSPtr annotation) override;
 

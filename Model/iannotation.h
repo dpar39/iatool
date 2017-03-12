@@ -2,9 +2,13 @@
 #define IANNOTATION_H
 
 #include <memory>
-#include "common.h"
+#include <vector>
+
+#include "Common/common.h"
 
 DEFINE(IAnnotation)
+
+DEFINE_VECTOR(IAnnotation)
 
 class QJsonObject;
 class QPainter;
