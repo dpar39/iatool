@@ -1,11 +1,11 @@
 #ifndef ANNOTATEDIMAGE_H
 #define ANNOTATEDIMAGE_H
 
-#include <QImage>
-
 #include "Common/common.h"
 #include "Model/iannotatedimage.h"
 #include "Model/iannotation.h"
+
+class QJsonObject;
 
 DEFINE(AnnotatedImage)
 
@@ -36,8 +36,7 @@ public:
 
     void render(QPainter *painter) const override;
 
-private:
-
+    void AnnotatedImage::serialize(QJsonObject &obj);
 
 public:
     /* Factory method */

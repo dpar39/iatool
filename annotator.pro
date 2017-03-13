@@ -5,7 +5,6 @@
 #-------------------------------------------------
 
 QT       += core gui
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = annotator
@@ -33,8 +32,8 @@ SOURCES += \
     Views/imagecollectionview.cpp \
     Views/mainview.cpp \
     Views/annotatedimageview.cpp \    
-    editcoordinator.cpp
-
+    editcoordinator.cpp \
+    Tests/tests_main.cpp
 
 HEADERS  += \
     Common/utils.h \
@@ -54,3 +53,27 @@ HEADERS  += \
 FORMS += \
     Views/mainview.ui \
     Views/annotatedimageview.ui
+
+tests {
+    message(Running Tests build)
+    QT += testlib
+    TARGET = tests
+    SOURCES -= main.cpp
+
+    INCLUDEPATH += \
+        Tests/gmock-1.7.0/include \
+        Tests/gmock-1.7.0/gtest/include \
+        Tests/gmock-1.7.0/ \
+        Tests/gmock-1.7.0/gtest
+
+    HEADERS += \
+        Tests/testhelpers.h
+
+    SOURCES += \
+        Tests/*.cpp \
+        Tests/gmock-1.7.0/src/gmock-all.cc \
+        Tests/gmock-1.7.0/gtest/src/gtest-all.cc
+
+} else {
+    message(Running Normal build)
+}

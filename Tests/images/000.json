@@ -1,0 +1,33 @@
+{
+    "image": "000.jpg",
+    "annotations": [
+        {
+            "type": "PointSet",
+            "data": [
+                "123,456"
+            ],
+            "prop": [
+                {
+                    "key": "color",
+                    "val": "red"
+                },
+                {
+                    "key": "mark",
+                    "val": "chinPoint"
+                }
+            ]
+        },
+        {
+            "type": "PointSet",
+            "data": [
+                "456,123"
+            ],
+            "prop": [
+                {
+                    "key": "color",
+                    "val": "blue"
+                }
+            ]
+        }
+    ]
+}

@@ -3,6 +3,13 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QPainter>
+#include <QJsonArray>
+#include <QJsonObject>
+
+const QString IMAGE = "image";
+const QString ANNOTATIONS = "annotations";
+
+
 
 AnnotatedImage::AnnotatedImage()
     : m_annotations(std::make_shared<IAnnotationSPtrVec>())
@@ -50,8 +57,24 @@ void AnnotatedImage::render(QPainter *painter) const
     }
 }
 
+void AnnotatedImage::serialize(QJsonObject &obj)
+{
+    obj[IMAGE] = imageFileName();
+    QJsonArray arr;
+    for (const auto &ann : *m_annotations)
+    {
+        QJsonObject obj;
+        ann->serialize(obj);
+        arr.append(obj);
+    }
+    obj[ANNOTATIONS] = arr;
+}
+
 IAnnotatedImageSPtr AnnotatedImage::fromFile(const QString &imageFile)
 {
+    // Get annotated file
+
+
     if (QFile(imageFile).exists())
     {
         auto annotatedImage = std::shared_ptr<AnnotatedImage>(new AnnotatedImage());
@@ -68,3 +91,5 @@ IAnnotatedImageSPtr AnnotatedImage::fromFile(const QString &imageFile)
     }
     return IAnnotatedImageSPtr();
 }
+
+//IAnnotatedImageSPtr AnnotatedImage::fromJson(const QString &a)

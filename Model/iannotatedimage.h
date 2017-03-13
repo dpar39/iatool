@@ -29,6 +29,7 @@ public:
 
     virtual void addAnnotation(IAnnotationSPtr annotation) = 0;
 
+
     virtual void render(QPainter *painter) const = 0;
 };
 
