@@ -19,7 +19,6 @@ void ImageCollectionView::setModel(ImageCollectionModel *model)
 {
     m_model = model;
     ui->listView->setModel(m_model);
-
     connect(ui->listView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             m_model, SLOT(onSelectedImage(QItemSelection,QItemSelection)));
 }

@@ -1,7 +1,6 @@
 #ifndef ANNOTATEDIMAGE_H
 #define ANNOTATEDIMAGE_H
 
-#include <QString>
 #include <QImage>
 
 #include "Common/common.h"
@@ -29,14 +28,22 @@ public:
 
     QString imageFileName() const override;
 
+    QPixmap thumbnail() override;
+
     IAnnotationSPtrVecSPtr annotations() const override;
 
     void addAnnotation(IAnnotationSPtr annotation) override;
 
     void render(QPainter *painter) const override;
+
+private:
+
+
 public:
     /* Factory method */
     static IAnnotatedImageSPtr fromFile(const QString &imageFile);
+
+    // IAnnotatedImage interface
 };
 
 #endif // ANNOTATEDIMAGE_H

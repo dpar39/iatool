@@ -1,6 +1,7 @@
 #include "annotatedimage.h"
 
 #include <QFile>
+#include <QFileInfo>
 #include <QPainter>
 
 AnnotatedImage::AnnotatedImage()
@@ -15,7 +16,13 @@ QImageSPtr AnnotatedImage::getImage() const
 
 QString AnnotatedImage::imageFileName() const
 {
-    return m_imageFileName;
+    return QFileInfo(m_imageFileName).fileName();
+    //return m_imageFileName;
+}
+
+QPixmap AnnotatedImage::thumbnail()
+{
+    return QPixmap::fromImage(*m_image).scaledToWidth(64,Qt::SmoothTransformation);
 }
 
 IAnnotationSPtrVecSPtr AnnotatedImage::annotations() const
@@ -61,4 +68,3 @@ IAnnotatedImageSPtr AnnotatedImage::fromFile(const QString &imageFile)
     }
     return IAnnotatedImageSPtr();
 }
-

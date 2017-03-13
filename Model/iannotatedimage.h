@@ -4,7 +4,9 @@
 #include "Common/common.h"
 #include "Model/iannotation.h"
 #include <vector>
+
 #include <QString>
+#include <QPixmap>
 
 DEFINE(QImage)
 
@@ -20,6 +22,8 @@ public:
     virtual QImageSPtr getImage() const = 0;
 
     virtual QString imageFileName() const = 0;
+
+    virtual QPixmap thumbnail() = 0;
 
     virtual IAnnotationSPtrVecSPtr annotations() const = 0;
 

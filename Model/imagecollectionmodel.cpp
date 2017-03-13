@@ -14,31 +14,24 @@ void ImageCollectionModel::loadDirectoryWithImages(const QString &imageFolder)
 {
     QDir imageDirectory(imageFolder);
 
-
-    QStringList allFiles = imageDirectory.entryList({"*.png", "*.jpg"}, QDir::NoDotAndDotDot | QDir::Files);
-
+    QStringList allFiles = imageDirectory.entryList({"*.png", "*.jpg"},
+                                                    QDir::NoDotAndDotDot | QDir::Files);
     beginResetModel();
-
+    m_images->clear();
     for (auto &imageFile : allFiles)
     {
         auto annotatedImage = AnnotatedImage::fromFile(imageDirectory.filePath(imageFile));
-
         if (annotatedImage != nullptr)
         {
             m_images->push_back(annotatedImage);
-            if (m_images->size() == 3)
-            {
-                break;
-            }
         }
     }
-
     endResetModel();
 
-//    if (!m_annotatedImages->empty())
-//    {
-//        ui->imageViewer->setAnnotatedImage(m_annotatedImages->front());
-    //    }
+    if (!m_images->empty())
+    {
+        emit selectedImageChanged(m_images->front());
+    }
 }
 
 void ImageCollectionModel::onSelectedImage(QItemSelection selected, QItemSelection deselected)
@@ -57,10 +50,26 @@ int ImageCollectionModel::rowCount(const QModelIndex &) const
 
 QVariant ImageCollectionModel::data(const QModelIndex &index, int role) const
 {
+    if (!index.isValid())
+    {
+        return QVariant();
+    }
+
+    if (index.row() >= m_images->size())
+    {
+        return QVariant();
+    }
+    auto image = m_images->at(index.row());
+
     switch(role)
     {
         case Qt::DisplayRole:
-            return QVariant(m_images->at(index.row())->imageFileName());
+            return image->imageFileName();
+        case Qt::DecorationRole:
+            return image->thumbnail();
+        case Qt::ToolTipRole:
+        case Qt::SizeHintRole:
+            break;
     }
 
     return QVariant();
