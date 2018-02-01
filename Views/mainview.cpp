@@ -17,12 +17,12 @@ MainView::MainView(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    auto annotatedImage = AnnotatedImage::fromFile("W:\\GITHUB\\ppp\\research\\mugshot_frontal_original_all\\001_frontal.jpg");
+//    auto annotatedImage = AnnotatedImage::fromFile("W:\\GITHUB\\ppp\\research\\mugshot_frontal_original_all\\001_frontal.jpg");
 
-    auto ann = std::make_shared<SinglePointAnnotation>(QPointF(1000, 2000));
-    annotatedImage->addAnnotation(ann);
+//    auto ann = std::make_shared<SinglePointAnnotation>(QPointF(1000, 2000));
+//    annotatedImage->addAnnotation(ann);
 
-    ui->imageViewer->setAnnotatedImage(annotatedImage);
+//    ui->imageViewer->setAnnotatedImage(annotatedImage);
 
     m_annotatedImagesModel = new ImageCollectionModel(this, m_annotatedImages);
     ui->annotatedImagesView->setModel(m_annotatedImagesModel);

@@ -32,8 +32,7 @@ SOURCES += \
     Views/imagecollectionview.cpp \
     Views/mainview.cpp \
     Views/annotatedimageview.cpp \    
-    editcoordinator.cpp \
-    Tests/tests_main.cpp
+    editcoordinator.cpp
 
 HEADERS  += \
     Common/utils.h \
